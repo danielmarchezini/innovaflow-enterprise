@@ -1,0 +1,12 @@
+{
+  "name": "@innovaflow/enterprise",
+  "version": "0.1.0",
+  "private": true,
+  "description": "InnovaFlow Enterprise — platform admin, AI agent governance, and the enterprise cadeia-de-valor view. Closed-source, licensed separately from @innovaflow/core.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
