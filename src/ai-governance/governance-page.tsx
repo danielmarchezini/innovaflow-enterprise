@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCurrentOrg } from "@/hooks/use-current-org";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useHasPermission } from "@/hooks/use-role-permissions";
 import { useProcesses, useProcessActivities } from "@/hooks/use-architecture";
 import { useOrgMembers } from "@/hooks/use-org-members";
 import { fmtBRL } from "@/lib/format";
@@ -83,8 +83,7 @@ function GovernancePanel() {
   const { data: metrics = [] } = useAllAgentMetrics();
   const { data: alerts = [] } = useAlerts();
   const { currentOrg } = useCurrentOrg();
-  const { role } = useCurrentUser();
-  const isManager = role === "admin_empresa" || role === "gestor" || role === "admin_global";
+  const isManager = useHasPermission("ai_governance_manage");
   const isEnterprise = currentOrg?.plan === "enterprise";
   const atAgentLimit = !isEnterprise && agents.length >= STARTER_AGENT_LIMIT;
   const resolveAlert = useResolveAlert();

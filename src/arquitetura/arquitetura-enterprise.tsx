@@ -48,7 +48,7 @@ import {
 import { useIdeas } from "@/hooks/use-ideas";
 import { useOrgMembers } from "@/hooks/use-org-members";
 import { useCurrentOrg } from "@/hooks/use-current-org";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useHasPermission } from "@/hooks/use-role-permissions";
 import { computeHealth, type ProcessHealth } from "@/lib/architecture";
 import { EnterpriseLimitNotice } from "@/components/enterprise-limit-notice";
 
@@ -93,8 +93,7 @@ export function ArquiteturaEnterpriseView() {
   const { data: ideas = [] } = useIdeas();
   const { data: members = [] } = useOrgMembers();
   const { currentOrg } = useCurrentOrg();
-  const { role } = useCurrentUser();
-  const isManager = role === "admin_empresa" || role === "gestor" || role === "admin_global";
+  const isManager = useHasPermission("arquitetura_manage");
   const isEnterprise = currentOrg?.plan === "enterprise";
   const atProcessLimit = !isEnterprise && processes.length >= STARTER_PROCESS_LIMIT;
   const [query, setQuery] = useState("");

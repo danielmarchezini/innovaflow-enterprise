@@ -14,7 +14,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCurrentOrg } from "@/hooks/use-current-org";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useHasPermission } from "@/hooks/use-role-permissions";
 import { useProcesses } from "@/hooks/use-architecture";
 import { useOrgMembers } from "@/hooks/use-org-members";
 import { fmtBRL, fmtDate } from "@/lib/format";
@@ -34,8 +34,7 @@ export function AgentDetailPage({ agentId }: { agentId: string }) {
   const { data: metrics = [] } = useAgentMetrics(agentId);
   const { data: alerts = [] } = useAlerts();
   const { currentOrg } = useCurrentOrg();
-  const { role } = useCurrentUser();
-  const isManager = role === "admin_empresa" || role === "gestor" || role === "admin_global";
+  const isManager = useHasPermission("ai_governance_manage");
   const resolveAlert = useResolveAlert();
   const logMetric = useLogAgentMetric();
   const [editOpen, setEditOpen] = useState(false);
