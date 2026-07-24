@@ -83,7 +83,8 @@ function GovernancePanel() {
   const { data: metrics = [] } = useAllAgentMetrics();
   const { data: alerts = [] } = useAlerts();
   const { currentOrg } = useCurrentOrg();
-  const isManager = useHasPermission("ai_governance_manage");
+  const canCreateAgent = useHasPermission("ai_governance_create_agent");
+  const canEditAgent = useHasPermission("ai_governance_edit_agent");
   const isEnterprise = currentOrg?.plan === "enterprise";
   const atAgentLimit = !isEnterprise && agents.length >= STARTER_AGENT_LIMIT;
   const resolveAlert = useResolveAlert();
@@ -116,7 +117,7 @@ function GovernancePanel() {
         title="Governança de IA"
         description="Inventário, custo e retorno dos agentes de IA da empresa."
         actions={
-          isManager && (
+          canCreateAgent && (
             <Dialog open={createOpen && !atAgentLimit} onOpenChange={(v) => !atAgentLimit && setCreateOpen(v)}>
               <DialogTrigger asChild>
                 <Button
@@ -161,7 +162,7 @@ function GovernancePanel() {
                   <span className="font-medium">{ALERT_LABEL[a.alert_type] ?? a.alert_type}:</span>
                   <span className="text-foreground/80">{a.description}</span>
                 </div>
-                {isManager && (
+                {canEditAgent && (
                   <Button size="sm" variant="ghost" onClick={() => resolve(a.id)} disabled={resolveAlert.isPending}>
                     Resolver
                   </Button>

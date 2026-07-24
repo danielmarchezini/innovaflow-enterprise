@@ -34,7 +34,7 @@ export function AgentDetailPage({ agentId }: { agentId: string }) {
   const { data: metrics = [] } = useAgentMetrics(agentId);
   const { data: alerts = [] } = useAlerts();
   const { currentOrg } = useCurrentOrg();
-  const isManager = useHasPermission("ai_governance_manage");
+  const isManager = useHasPermission("ai_governance_edit_agent");
   const resolveAlert = useResolveAlert();
   const logMetric = useLogAgentMetric();
   const [editOpen, setEditOpen] = useState(false);
